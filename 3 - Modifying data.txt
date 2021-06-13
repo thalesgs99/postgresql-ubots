@@ -1,0 +1,57 @@
+		Insert some data into a table
+
+insert into facilities values(9,'Spa', 20, 30, 100000, 800);
+
+		Insert multiple rows of data into a table
+
+insert into facilities values
+(9,'Spa',20,30,100000,800),
+(10,'Squash Court 2',3.5,17.5,5000,80)
+
+		Insert calculated data into a table
+
+insert into facilities select
+ (select max(facid) from facilities)+1,'Spa', 20, 30, 100000, 800;
+
+		Update some existing data
+
+update facilities set initialoutlay = 10000 where initialoutlay = 8000;
+
+		Update multiple rows and columns at the same time
+
+update facilities set guestcost = 30,  membercost = 6 where name like'Tennis Court%';
+
+		Update a row based on the contents of another row
+
+update facilities as fac
+    set
+        membercost = (select membercost * 1.1 from facilities where facid = 0),
+        guestcost = (select guestcost * 1.1 from facilities where facid = 0)
+    where fac.facid = 1; 
+
+		Delete all bookings
+
+delete from bookings;
+
+		Delete a member from the cd.members table
+
+delete from members where memid = 37;
+
+		Delete based on a subquery
+
+delete from members where memid not in (select memid from cd.bookings);
+
+		
+
+		
+
+		
+		
+
+		
+
+
+		
+
+
+		

@@ -1,0 +1,54 @@
+		Find the upward recommendation chain for member ID 27
+
+with recursive recommenders(recommender) as (
+	select recommendedby from members where memid = 27
+	union all
+	select mems.recommendedby
+		from recommenders recs
+		inner join members mems
+			on mems.memid = recs.recommender
+)
+select recs.recommender, mems.firstname, mems.surname
+	from recommenders recs
+	inner join members mems
+		on recs.recommender = mems.memid
+order by memid desc;
+
+		Find the downward recommendation chain for member ID 1
+
+with recursive recommendeds(memid) as (
+	select memid from members where recommendedby = 1
+	union all
+	select mem.memid
+		from recommendeds as rec
+		inner join members as mem
+			on mem.recommendedby = rec.memid
+)
+select rec.memid, mem.firstname, mem.surname
+	from recommendeds as rec
+	inner join members as mem
+		on rec.memid = mem.memid
+order by memid;
+	
+		Produce a CTE that can return the upward recommendation chain for any member
+
+with recursive recommenders(recommender, member) as (
+	select recommendedby, memid
+		from members
+	union all
+	select mem.recommendedby, rec.member
+		from recommenders rec
+		inner join members  as mem
+			on mem.memid = rec.recommender
+)
+select rec.member as member, rec.recommender, mem.firstname, mem.surname
+	from recommenders as rec
+	inner join members as mem		
+		on rec.recommender = mem.memid
+	where rec.member = 22 or rec.member = 12
+order by rec.member asc, rec.recommender desc;
+
+	
+
+
+

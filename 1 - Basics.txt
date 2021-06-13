@@ -1,0 +1,47 @@
+Retrieve everything from a table
+select * from facilities;
+
+Retrieve specific columns from a table
+select name, membercost from facilities;
+
+Control which rows are retrieved
+select * from facilities where guestcost >= 17.5;
+
+Control which rows are retrieved - part 2
+select facid, name, membercost, monthlymaintenance from facilities where membercost = 35; 
+
+Basic string searches
+select * from facilities where name like  '%Tennis%';
+
+Matching against multiple possible values
+select * from facilities where facid in (1,5);
+
+Classify results into buckets
+select name, case when monthlymaintenance > 100 then 'expensive' else 'cheap' end as cost from facilities; 
+
+Working with dates
+select memid, surname, firstname, joindate from members where joindate > '2012-08-31 23:59:59' 
+
+Removing duplicates, and ordering results
+select distinct surname from members order by surname asc limit 10;
+
+Combining results from multiple queries
+select surname from cd.members union select name from facilities;
+
+Simple aggregation
+select max(joindate) as latest from members;
+
+More aggregation
+select firstname, surname, joindate from members where joindate = (select max(joindate) from members);
+
+
+
+
+
+
+
+
+
+
+
+
